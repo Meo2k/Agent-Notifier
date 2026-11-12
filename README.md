@@ -1,6 +1,7 @@
-# Antigravity CLI Notifier
+# Agent CLI Notifier
 
-Audio alerts and desktop popups for Antigravity CLI lifecycle events.
+Audio alerts and desktop popups for Agent CLI lifecycle events. <br/>
+**<u>Note</u>**: the notifier can use for different models. 
 
 ## Components
 
@@ -13,8 +14,8 @@ Audio alerts and desktop popups for Antigravity CLI lifecycle events.
 ## Environment (`.env`)
 
 ```env
-HOOKS_CONFIG_PATH=/home/meo2k/.gemini/config/hooks.json
-HOOKS_DIR=/home/meo2k/.gemini/config/hooks/notifier
+HOOKS_CONFIG_PATH=~/.gemini/config/hooks.json
+HOOKS_DIR=~/.gemini/config/hooks/notifier
 HOOK_NAME=antigravity-notifier
 AGENT_NAME=Antigravity CLI
 ```
@@ -22,13 +23,13 @@ AGENT_NAME=Antigravity CLI
 ## Usage
 
 ```bash
-# Renders {{AGENT_NAME}} into notifier.py and config.json, deploys to HOOKS_DIR, and registers fail-safe hooks
+# install hook
 python3 manage_hook.py install
 
-# Inspect status and verify deployed files
+# inspect status
 python3 manage_hook.py status
 
-# Unregisters from hooks.json and cleans deployed files
+# remove the hook
 python3 manage_hook.py uninstall
 ```
 
