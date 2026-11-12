@@ -24,7 +24,7 @@ def trigger_alert(key, custom_message=None):
     cfg = load_config()
     msg_info = cfg.get("messages", {}).get(key, {})
 
-    title = msg_info.get("title", "Antigravity CLI")
+    title = msg_info.get("title", "{{AGENT_NAME}}")
     message = custom_message or msg_info.get("message", "")
     voice = msg_info.get("voice", "")
     sound_file = msg_info.get("sound", "")
@@ -42,7 +42,7 @@ def trigger_alert(key, custom_message=None):
                 "notify-send",
                 "-u", urgency,
                 "-i", icon_map.get(key, "dialog-information"),
-                "-a", "Antigravity CLI",
+                "-a", "{{AGENT_NAME}}",
                 title,
                 message,
             ],
@@ -84,10 +84,33 @@ def handle_stop(payload):
 
 def handle_pre_tool(payload):
     tool_call = payload.get("toolCall", {})
-    if tool_call.get("name") == "ask_question":
-        questions = tool_call.get("args", {}).get("questions", [])
+    name = tool_call.get("name", "")
+    args = tool_call.get("args", {})
+    workspace_paths = payload.get("workspacePaths", [])
+
+    if name == "ask_question":
+        questions = args.get("questions", [])
         q_text = questions[0].get("question", "") if questions and isinstance(questions[0], dict) else ""
         trigger_alert("question", custom_message=f"Question: {q_text}" if q_text else None)
+        return {"decision": "allow"}
+
+    path_arg = args.get("Path")
+    if path_arg and workspace_paths:
+        try:
+            target = Path(path_arg).resolve()
+            is_outside = True
+            for wp in workspace_paths:
+                try:
+                    target.relative_to(Path(wp).resolve())
+                    is_outside = False
+                    break
+                except ValueError:
+                    pass
+            if is_outside:
+                trigger_alert("permission_needed", custom_message=f"Outside workspace: {path_arg}")
+                return {"decision": "ask", "reason": f"Access outside workspace: {path_arg}"}
+        except Exception:
+            pass
 
     return {"decision": "allow"}
 
