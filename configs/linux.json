@@ -1,0 +1,37 @@
+{
+  "sound_enabled": false,
+  "voice_enabled": true,
+  "popup_enabled": true,
+  "tts_engine": "spd-say",
+  "sound_engine": "paplay",
+  "messages": {
+    "task_completed": {
+      "voice": "Manager, task is completed.",
+      "title": "{{AGENT_NAME}} - Completed",
+      "message": "Task completed. Ready for your next instruction.",
+      "sound": "/usr/share/sounds/freedesktop/stereo/complete.oga",
+      "urgency": "normal"
+    },
+    "task_error": {
+      "voice": "Manager, task stopped with an error.",
+      "title": "{{AGENT_NAME}} - Error",
+      "message": "Task stopped due to an error.",
+      "sound": "/usr/share/sounds/freedesktop/stereo/dialog-error.oga",
+      "urgency": "critical"
+    },
+    "question": {
+      "voice": "Manager, I have a question.",
+      "title": "{{AGENT_NAME}} - Question",
+      "message": "Agent has a question requiring your input!",
+      "sound": "/usr/share/sounds/freedesktop/stereo/message-new-instant.oga",
+      "urgency": "critical"
+    },
+    "permission_needed": {
+      "voice": "Manager, permission required.",
+      "title": "{{AGENT_NAME}} - Permission Required",
+      "message": "Permission required to execute a command or tool.",
+      "sound": "/usr/share/sounds/freedesktop/stereo/dialog-warning.oga",
+      "urgency": "critical"
+    }
+  }
+}

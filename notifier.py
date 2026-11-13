@@ -2,74 +2,17 @@
 import os
 import sys
 import json
-import shutil
-import subprocess
 from pathlib import Path
+from detector_manager import DetectorManager
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-CONFIG_FILE = SCRIPT_DIR / "config.json"
 
-def load_config():
-    if not CONFIG_FILE.exists():
-        print(f"[Notifier Error] Missing: {CONFIG_FILE}", file=sys.stderr)
-        return {}
-    try:
-        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception as e:
-        print(f"[Notifier Error] JSON parse failure in {CONFIG_FILE}: {e}", file=sys.stderr)
-        return {}
+# Initialize platform-specific notifier through DetectorManager
+manager = DetectorManager(base_dir=SCRIPT_DIR)
+notifier = manager.get_notifier()
 
 def trigger_alert(key, custom_message=None):
-    cfg = load_config()
-    msg_info = cfg.get("messages", {}).get(key, {})
-
-    title = msg_info.get("title", "{{AGENT_NAME}}")
-    message = custom_message or msg_info.get("message", "")
-    voice = msg_info.get("voice", "")
-    sound_file = msg_info.get("sound", "")
-    urgency = msg_info.get("urgency", "normal")
-
-    if cfg.get("popup_enabled", True) and shutil.which("notify-send"):
-        icon_map = {
-            "task_completed": "dialog-information",
-            "task_error": "dialog-error",
-            "question": "dialog-question",
-            "permission_needed": "dialog-warning",
-        }
-        subprocess.Popen(
-            [
-                "notify-send",
-                "-u", urgency,
-                "-i", icon_map.get(key, "dialog-information"),
-                "-a", "{{AGENT_NAME}}",
-                title,
-                message,
-            ],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            start_new_session=True,
-        )
-
-    if cfg.get("sound_enabled", True) and sound_file and os.path.exists(sound_file):
-        engine = cfg.get("sound_engine", "paplay")
-        if shutil.which(engine):
-            subprocess.Popen(
-                [engine, sound_file],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                start_new_session=True,
-            )
-
-    if cfg.get("voice_enabled", True) and voice:
-        engine = cfg.get("tts_engine", "spd-say")
-        if shutil.which(engine):
-            subprocess.Popen(
-                [engine, "-r", "10", voice],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                start_new_session=True,
-            )
+    notifier.trigger_alert(key, custom_message=custom_message)
 
 def handle_stop(payload):
     reason = payload.get("terminationReason", "")
