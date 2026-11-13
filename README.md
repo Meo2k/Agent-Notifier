@@ -34,17 +34,32 @@ Agent-Notifier/
 | **macOS** | `osascript` notification | `say` | `afplay` |
 | **Termux (Android)** | `termux-notification` / `termux-toast` | `termux-tts-speak` (Android TTS) | `termux-media-player` / `termux-vibrate` |
 
-## Usage
+## Quick Install (No Git Clone Required)
 
-### 1. Installation
-Install hooks interactively from the console (press Enter to use defaults):
+Install directly with a single command without cloning the repository:
+
+### Linux / macOS / Termux (Android):
 ```bash
-python manage_hook.py install
+curl -fsSL https://raw.githubusercontent.com/Meo2k/Agent-Notifier/refs/heads/main/install.sh | bash
 ```
-*(Optional: Use `-y` or `--yes` to accept all default parameters automatically without prompting)*
+
+### Windows (PowerShell):
+```powershell
+irm https://raw.githubusercontent.com/Meo2k/Agent-Notifier/refs/heads/main/install.ps1 | iex
+```
+
+### One-liner Uninstall:
 ```bash
-python manage_hook.py install -y
+# Linux / macOS / Termux
+curl -fsSL https://raw.githubusercontent.com/Meo2k/Agent-Notifier/refs/heads/main/uninstall.sh | bash
+
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/Meo2k/Agent-Notifier/refs/heads/main/uninstall.ps1 | iex
 ```
+
+---
+
+## Manual Installation (From Clone)
 
 ### 2. Inspect Status
 ```bash
