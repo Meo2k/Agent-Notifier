@@ -55,10 +55,6 @@ try {
     & $pythonCmd $installerScript install -y
 
     Write-Host "`n[✓] Agent-Notifier installation complete!" -ForegroundColor Green
-    Write-Host "------------------------------------------" -ForegroundColor Cyan
-    Write-Host "Quick test command:"
-    Write-Host "  $pythonCmd ~/.gemini/config/hooks/notifier/notifier.py --test task_completed" -ForegroundColor Yellow
-    Write-Host "------------------------------------------" -ForegroundColor Cyan
 }
 finally {
     if (Test-Path $tempZip) { Remove-Item -Path $tempZip -Force -ErrorAction SilentlyContinue }

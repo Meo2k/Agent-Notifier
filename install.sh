@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Agent-Notifier: One-liner Installer for Linux, macOS & Termux
+# Agent-Notifier: One-liner Installer for Linux & macOS
 # Repository: https://github.com/Meo2k/Agent-Notifier
 # ==============================================================================
 
@@ -106,10 +106,3 @@ else
 fi
 
 echo -e "\n${GREEN}[✓] Agent-Notifier installation complete!${NC}"
-echo -e "${CYAN}------------------------------------------${NC}"
-echo -e "Quick testing commands:"
-echo -e "  ${YELLOW}$PYTHON_BIN ~/.gemini/config/hooks/notifier/notifier.py --test task_completed${NC}"
-echo -e "  ${YELLOW}$PYTHON_BIN ~/.gemini/config/hooks/notifier/manage_hook.py status${NC}"
-echo -e "To uninstall anytime:"
-echo -e "  ${YELLOW}$PYTHON_BIN ~/.gemini/config/hooks/notifier/manage_hook.py uninstall -y${NC}"
-echo -e "${CYAN}------------------------------------------${NC}"

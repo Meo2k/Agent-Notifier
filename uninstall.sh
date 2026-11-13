@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Agent-Notifier: One-liner Uninstaller for Linux, macOS & Termux
+# Agent-Notifier: One-liner Uninstaller for Linux & macOS
 # Repository: https://github.com/Meo2k/Agent-Notifier
 # ==============================================================================
 

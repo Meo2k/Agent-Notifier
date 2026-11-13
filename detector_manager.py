@@ -9,7 +9,6 @@ from platforms.base import BasePlatformNotifier
 from platforms.linux import LinuxNotifier
 from platforms.windows import WindowsNotifier
 from platforms.macos import MacOSNotifier
-from platforms.termux import TermuxNotifier
 
 class DetectorManager:
     """
@@ -21,7 +20,6 @@ class DetectorManager:
         "linux": LinuxNotifier,
         "windows": WindowsNotifier,
         "macos": MacOSNotifier,
-        "termux": TermuxNotifier,
     }
 
     def __init__(self, base_dir: Optional[Path] = None, force_os: Optional[str] = None):
@@ -31,18 +29,9 @@ class DetectorManager:
     @staticmethod
     def detect_os() -> str:
         """
-        Detects operating system / environment:
-        'termux', 'windows', 'macos', or 'linux'.
+        Detects operating system:
+        'windows', 'macos', or 'linux'.
         """
-        # 1. Check for Termux (Android)
-        if (
-            "TERMUX_VERSION" in os.environ
-            or "com.termux" in os.environ.get("PREFIX", "")
-            or os.path.exists("/data/data/com.termux")
-        ):
-            return "termux"
-
-        # 2. Check standard desktop OS
         system = platform.system().lower()
         if system == "windows" or sys.platform.startswith("win"):
             return "windows"
@@ -96,7 +85,7 @@ class DetectorManager:
         """
         Determines the appropriate python command name for the OS.
         """
-        if self.os_name in ("windows", "termux"):
+        if self.os_name == "windows":
             return "python"
         return "python3"
 
